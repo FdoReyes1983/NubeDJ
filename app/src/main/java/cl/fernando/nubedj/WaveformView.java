@@ -42,7 +42,7 @@ public final class WaveformView extends View {
         long pos = deck.getCurrentPosition();
         long windowMs = Math.min(32_000L, Math.max(12_000L, duration / 8));
         long start = pos - windowMs / 2;
-        int bars = Math.max(40, w / Math.max(2, dp(3)));
+        int bars = Math.max(40, Math.round(w / Math.max(2f, dp(3))));
         float center = h / 2f;
         for (int i = 0; i < bars; i++) {
             long t = start + (long) (windowMs * i / (double) (bars - 1));
