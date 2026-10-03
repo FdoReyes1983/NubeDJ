@@ -1,49 +1,25 @@
-# Nube DJ 0.1.0
+# Nube DJ v0.2.0
 
-Primer MVP de una aplicación DJ para Android, creada como proyecto separado de Nube Música.
+Segunda iteración del prototipo DJ para Android, enfocada en una experiencia visual de cabina y biblioteca en nube.
 
-## Funciona en esta versión
+## Incluido en v0.2
 
-- Dos decks A/B independientes con reproducción simultánea.
-- Carga de audio mediante el selector de documentos de Android.
-  - Permite archivos locales.
-  - Puede mostrar Google Drive si Drive está disponible como proveedor de documentos en el dispositivo.
-- Play/Pausa por deck.
-- Cue y Set Cue por deck.
-- Seek de pista.
-- Volumen independiente por deck.
-- Tempo/Pitch de reproducción de 75% a 125%.
-- TAP BPM manual por deck.
-- SYNC A <- B y B <- A basado en los BPM marcados con TAP.
-- Crossfader equal-power A/B.
-- Interfaz horizontal pensada para teléfono/tablet.
-- Pantalla activa durante la mezcla.
+- Dos decks A/B simultáneos con crossfader equal-power.
+- Waveform desplazable visualmente durante la reproducción.
+- Análisis automático local de BPM y forma de onda mediante MediaCodec.
+- Jog wheels visuales sincronizados con la posición de reproducción.
+- CUE / SET / PLAY / PAUSA / SYNC / TAP.
+- Pitch/tempo 75–125%.
+- Mixer central con VU meters y ecualización LOW/MID/HIGH por deck.
+- Biblioteca Google Drive integrada con Mi Drive, Compartidos, carpetas, búsqueda y botones LOAD A / LOAD B.
+- Las canciones de Drive se descargan a caché privada antes de reproducirse y analizarse.
+- Sin Toasts rutinarios: el estado se muestra dentro de cada deck.
+- GitHub Actions para generar la APK debug desde el teléfono.
 
-## Limitaciones deliberadas del MVP
+## Google Drive
 
-Todavía no incluye scratching, waveform real, EQ de 3 bandas, filtros, loops, hot cues múltiples, preescucha por audífonos, MIDI, stems ni conexión MEGA directa. Esas funciones necesitan un motor de audio de menor latencia y una arquitectura más cercana a una aplicación DJ profesional.
+Consulta `docs/GOOGLE_DRIVE.md`. El nuevo paquete `cl.fernando.nubedj` debe registrarse como cliente OAuth Android usando la SHA-1 de la clave incluida.
 
-## Identidad Android
+## Compilación
 
-- applicationId: `cl.fernando.nubedj`
-- versionCode: `1`
-- versionName: `0.1.0`
-- minSdk: 28
-- targetSdk: 36
-- Media3: 1.9.4
-
-Puede instalarse junto a Nube Música porque utiliza un applicationId distinto.
-
-## Compilar
-
-Abrir el proyecto en Android Studio y ejecutar `app`, o ejecutar:
-
-```bash
-./gradlew assembleDebug
-```
-
-La APK se genera normalmente en:
-
-`app/build/outputs/apk/debug/app-debug.apk`
-
-El proyecto también incluye `.github/workflows/android-debug.yml` para compilar automáticamente una APK debug mediante GitHub Actions.
+GitHub Actions genera el artefacto `Nube-DJ-v0.2.0-debug` en cada push a `main`.

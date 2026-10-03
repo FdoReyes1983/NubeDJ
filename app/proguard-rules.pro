@@ -1,1 +1,1 @@
-# Nube DJ v0.1.0 - no custom shrinker rules yet.
+# Nube DJ v0.2.0 - no custom shrinker rules yet.
