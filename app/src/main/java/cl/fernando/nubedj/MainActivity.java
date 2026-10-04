@@ -89,7 +89,7 @@ public final class MainActivity extends AppCompatActivity {
         applyCrossfader(50);updateDriveAccount();ticker.post(tickerTask);
     }
 
-    @Override protected void onWindowFocusChanged(boolean hasFocus){super.onWindowFocusChanged(hasFocus);if(hasFocus){WindowInsetsControllerCompat bars=WindowCompat.getInsetsController(getWindow(),getWindow().getDecorView());if(bars!=null)bars.hide(WindowInsetsCompat.Type.systemBars());}}
+    @Override public void onWindowFocusChanged(boolean hasFocus){super.onWindowFocusChanged(hasFocus);if(hasFocus){WindowInsetsControllerCompat bars=WindowCompat.getInsetsController(getWindow(),getWindow().getDecorView());if(bars!=null)bars.hide(WindowInsetsCompat.Type.systemBars());}}
     @Override protected void onDestroy(){ticker.removeCallbacksAndMessages(null);io.shutdownNow();deckA.release();deckB.release();super.onDestroy();}
 
     private View buildConsole(){
