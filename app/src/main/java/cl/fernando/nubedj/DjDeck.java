@@ -29,6 +29,8 @@ public final class DjDeck {
     private boolean analyzing;
     private Equalizer equalizer;
     private float lowDb, midDb, highDb;
+    private boolean cueHeld;
+    private boolean jogWasPlaying;
 
     public DjDeck(Context context) {
         player = new ExoPlayer.Builder(context).build();
@@ -68,7 +70,42 @@ public final class DjDeck {
     public void togglePlay() { if (player.isPlaying()) player.pause(); else player.play(); }
     public void setCue() { cuePositionMs = Math.max(0L, player.getCurrentPosition()); status = "CUE " + TimeFormat.ms(cuePositionMs); notifyListener(); }
     public void cue() { player.pause(); player.seekTo(cuePositionMs); status = "CUE"; notifyListener(); }
-    public void seekTo(long ms) { player.seekTo(Math.max(0L, ms)); }
+    public void cuePressStart() {
+        cueHeld = true;
+        player.pause();
+        player.seekTo(cuePositionMs);
+        player.play();
+        status = "CUE PREVIEW";
+        notifyListener();
+    }
+    public void cuePressEnd() {
+        if (!cueHeld) return;
+        cueHeld = false;
+        player.pause();
+        player.seekTo(cuePositionMs);
+        status = "CUE";
+        notifyListener();
+    }
+    public void seekTo(long ms) {
+        long duration = getDuration();
+        long target = duration > 0 ? Math.min(duration, Math.max(0L, ms)) : Math.max(0L, ms);
+        player.seekTo(target);
+        notifyListener();
+    }
+    public void beginJog() {
+        jogWasPlaying = player.isPlaying();
+        status = "JOG";
+        notifyListener();
+    }
+    public void scrubBy(long deltaMs) {
+        seekTo(getCurrentPosition() + deltaMs);
+        status = "SCRUB";
+    }
+    public void endJog() {
+        if (jogWasPlaying && !player.isPlaying()) player.play();
+        status = jogWasPlaying ? "PLAY" : "PAUSA";
+        notifyListener();
+    }
 
     public void setDeckVolume(float value01) { deckVolume = clamp(value01, 0f, 1f); applyVolume(); }
     public void setCrossfadeGain(float value01) { crossfadeGain = clamp(value01, 0f, 1f); applyVolume(); }
